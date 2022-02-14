@@ -4,6 +4,9 @@ use bevy_backroll::BackrollPlugin;
 
 use bevy_rapier3d::prelude::*;
 
+pub mod input;
+
+
 fn main() {
     App::new()
         // resources
@@ -15,7 +18,6 @@ fn main() {
         })
         // add plugins
         .add_plugins(DefaultPlugins)
-
         .add_plugin(BackrollPlugin::default())
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::default())
         .add_plugin(RapierRenderPlugin)
@@ -50,4 +52,27 @@ fn setup(
         transform: Transform::from_translation(Vec3::new(4.0, 8.0, 4.0)),
         ..Default::default()
     });
+
+    /* Create the ground. */
+    let collider = ColliderBundle {
+        shape: ColliderShape::cuboid(100.0, 0.1, 100.0).into(),
+        ..Default::default()
+    };
+    commands.spawn_bundle(collider);
+
+    /* Create the bouncing ball. */
+    let rigid_body = RigidBodyBundle {
+        position: Vec3::new(0.0, 10.0, 0.0).into(),
+        ..Default::default()
+    };
+    let collider = ColliderBundle {
+        shape: ColliderShape::ball(0.5).into(),
+        material: ColliderMaterial {
+            restitution: 0.7,
+            ..Default::default()
+        }.into(),
+        ..Default::default()
+    };
+    commands.spawn_bundle(rigid_body)
+        .insert_bundle(collider);
 }
