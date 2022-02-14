@@ -17,4 +17,4 @@ opt-level = 3
 
 [patch.crates-io]
 # override it with bevy from git
-bevy = { git = "https://github.com/bevyengine/bevy", rev = "d8974e7c3d84189313268f475ceeff9393cedffa" }
+bevy = { git = "https://github.com/bevyengine/bevy" }
