@@ -265,6 +265,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "bevy_atmosphere"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5fd8467a3e30b5876049434263599ac298c6c60d93eeacb847219231c0f41d9b"
+dependencies = [
+ "bevy",
+ "naga",
+]
+
+[[package]]
 name = "bevy_audio"
 version = "0.6.0"
 source = "git+https://github.com/bevyengine/bevy#d8974e7c3d84189313268f475ceeff9393cedffa"
@@ -2165,6 +2175,7 @@ name = "mplike"
 version = "0.1.0"
 dependencies = [
  "bevy",
+ "bevy_atmosphere",
  "bevy_backroll",
  "bevy_rapier3d",
 ]

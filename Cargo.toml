@@ -9,9 +9,19 @@ edition = "2021"
 bevy = { version = "0.6", features = ["dynamic", "bevy_render"] }
 bevy_rapier3d = ">=0.12.1"
 bevy_backroll = ">=0.3.0"
+bevy_atmosphere = ">=0.2.0"
 
-[profile.dev.package.bevy_rapier3d]
+# Enable only a small amount of optimization in debug mode
+[profile.dev]
+opt-level = 1
+
+# Enable high optimizations for dependencies (incl. Bevy), but not for our code:
+[profile.dev.package."*"]
 opt-level = 3
+
+# maximum performance
+[profile.release]
+lto = "thin"
 
 [patch.crates-io]
 # override it with bevy from git
@@ -20,3 +30,7 @@ bevy_app = { git = "https://github.com/bevyengine/bevy" }
 bevy_ecs = { git = "https://github.com/bevyengine/bevy" }
 bevy_core = { git = "https://github.com/bevyengine/bevy" }
 
+[workspace.metadata.dylint]
+libraries = [
+    { git = "https://github.com/MinerSebas/bevy_lint", branch = "main" },
+]
