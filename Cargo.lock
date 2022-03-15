@@ -2178,6 +2178,7 @@ dependencies = [
  "bevy_atmosphere",
  "bevy_backroll",
  "bevy_rapier3d",
+ "thiserror",
 ]
 
 [[package]]

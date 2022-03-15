@@ -3,12 +3,14 @@ use bevy::prelude::*;
 
 use bevy_rapier3d::prelude::*;
 use bevy::input::{gamepad::gamepad_event_system, system::exit_on_esc_system};
+use crate::board::space::CircleMaterial;
 
 pub mod input;
 pub mod board;
 
 
 fn main() {
+    
     App::new()
         // resources
         .insert_resource(WindowDescriptor {
@@ -17,6 +19,20 @@ fn main() {
             height: 720.,
             ..Default::default()
         })
+        // .insert_resource(CircleMaterial {
+        //     inner_color: Color::Rgba {
+        //         red: 1.0,
+        //         green: 0.843137254902,
+        //         blue: 0.0,
+        //         alpha: 1.0
+        //     },
+        //     outer_color: Color::Rgba {
+        //         red: 0.0,
+        //         green: 0.0,
+        //         blue: 1.0,
+        //         alpha: 1.0
+        //     }
+        // })
         // add plugins
         .add_plugins(DefaultPlugins)
         .add_plugin(BackrollPlugin::default())
