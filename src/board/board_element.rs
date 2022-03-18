@@ -4,8 +4,8 @@ use crate::board::player::{BoardPlayer, CoinCarrier, StarCarrier};
 
 #[derive(Component)]
 pub struct BoardElement {
-    pub next_spaces: Vec<Entity>,
-    pub last_spaces: Vec<Entity>
+    pub next_spaces: Box<[Entity]>,
+    pub last_spaces: Box<[Entity]>
 }
 
 #[derive(Component)]

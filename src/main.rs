@@ -1,43 +1,30 @@
 use bevy_backroll::BackrollPlugin;
 use bevy::prelude::*;
 
-use bevy_rapier3d::prelude::*;
 use bevy::input::{gamepad::gamepad_event_system, system::exit_on_esc_system};
-use crate::board::space::CircleMaterial;
+use bevy::pbr::SpecializedMaterial;
+use bevy::render::render_asset::RenderAsset;
+use crate::board::space_shader::CircleMaterial;
 
 pub mod input;
 pub mod board;
 
 
 fn main() {
-    
     App::new()
+        // add plugins
+        .add_plugins(DefaultPlugins)
+        .add_plugin(MaterialPlugin::<CircleMaterial>::default())
         // resources
         .insert_resource(WindowDescriptor {
-            title: "MP-Like Game".to_string(),
+            title: "aaa".to_string(),
             width: 1280.,
             height: 720.,
             ..Default::default()
         })
-        // .insert_resource(CircleMaterial {
-        //     inner_color: Color::Rgba {
-        //         red: 1.0,
-        //         green: 0.843137254902,
-        //         blue: 0.0,
-        //         alpha: 1.0
-        //     },
-        //     outer_color: Color::Rgba {
-        //         red: 0.0,
-        //         green: 0.0,
-        //         blue: 1.0,
-        //         alpha: 1.0
-        //     }
-        // })
-        // add plugins
-        .add_plugins(DefaultPlugins)
-        .add_plugin(BackrollPlugin::default())
-        .add_plugin(RapierPhysicsPlugin::<NoUserData>::default())
-        .add_plugin(RapierRenderPlugin)
+        .insert_resource(Msaa {
+            samples: 4
+        })
         // startup systems
         .add_startup_system(setup)
         // AAAAAAAA
@@ -47,11 +34,38 @@ fn main() {
 
 fn setup(
     mut commands: Commands,
-    asset_server: Res<AssetServer>
+    asset_server: Res<AssetServer>,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<CircleMaterial>>,
 ) {
-    commands.spawn_scene(asset_server.load("boards/testmap.gltf#Scene0"));
+    asset_server.watch_for_changes().unwrap();
+
+    commands.spawn_bundle(MaterialMeshBundle {
+        mesh: meshes.add(Mesh::from(shape::Plane { size: 2.0 })),
+        material: materials.add(CircleMaterial {
+            circle_color: Color::Rgba {
+                red: 0.0,
+                green: 0.0,
+                blue: 1.0,
+                alpha: 1.0
+            },
+            outline_color: Color::Rgba {
+                red: 1.0,
+                green: 0.843137254902,
+                blue: 0.0,
+                alpha: 1.0
+            },
+            outer_color: Color::Rgba {
+                red: 0.0,
+                green: 0.0,
+                blue: 0.0,
+                alpha: 0.0
+            }
+        }),
+        ..Default::default()
+    });
     commands.spawn_bundle(PerspectiveCameraBundle {
-        transform: Transform::from_xyz(21.2536, 14.1089, -18.3229).looking_at(Vec3::new(0.0, 0.0, 0.0), Vec3::Y),
+        transform: Transform::from_xyz(0.0, 10.0, 0.1).looking_at(Vec3::new(0.0, 0.0, 0.0), Vec3::Y),
         ..Default::default()
     });
 
@@ -72,4 +86,6 @@ fn setup(
         },
         ..Default::default()
     });
+
+
 }

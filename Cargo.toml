@@ -6,10 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = { version = "0.6", features = ["dynamic", "bevy_render"] }
-bevy_rapier3d = ">=0.12.1"
+bevy = { version = "0.6.1", features = ["dynamic", "bevy_render", "filesystem_watcher"] }
 bevy_backroll = ">=0.3.0"
-bevy_atmosphere = ">=0.2.0"
 thiserror = "*"
 
 # Enable only a small amount of optimization in debug mode
@@ -23,13 +21,6 @@ opt-level = 3
 # maximum performance
 [profile.release]
 lto = "thin"
-
-[patch.crates-io]
-# override it with bevy from git
-bevy = { git = "https://github.com/bevyengine/bevy" }
-bevy_app = { git = "https://github.com/bevyengine/bevy" }
-bevy_ecs = { git = "https://github.com/bevyengine/bevy" }
-bevy_core = { git = "https://github.com/bevyengine/bevy" }
 
 [workspace.metadata.dylint]
 libraries = [
