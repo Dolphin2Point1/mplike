@@ -22,17 +22,17 @@ struct FragmentInput {
 fn fragment(in: FragmentInput) -> [[location(0)]] vec4<f32> {
     let uvx: f32 = (in.uv[0] * 2.0) - 1.0;
     let uvy: f32 = (in.uv[1] * 2.0) - 1.0;
-    // let squared_distance: f32 = (uvx * uvx) + (uvy * uvy);
+    let squared_distance: f32 = (uvx * uvx) + (uvy * uvy);
 
-    // if(squared_distance < 0.8) {
-    //     return material.circle_color;
-    // } else if(squared_distance < 1.0) {
-    //     return material.outline_color;
-    // } else {
-    //     if(material.outer_color.w > 0.0) {
+    if(squared_distance < 0.8) {
+        return material.circle_color;
+    } else if(squared_distance < 1.0) {
+        return material.outline_color;
+    } else {
+        if(material.outer_color.w > 0.0) {
             return material.outer_color;
-    //     } else {
-    //         discard;
-    //     }
-    // }
+        } else {
+            discard;
+        }
+    }
 }

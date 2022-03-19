@@ -38,8 +38,6 @@ fn setup(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<CircleMaterial>>,
 ) {
-    asset_server.watch_for_changes().unwrap();
-
     commands.spawn_bundle(MaterialMeshBundle {
         mesh: meshes.add(Mesh::from(shape::Plane { size: 2.0 })),
         material: materials.add(CircleMaterial {
@@ -62,10 +60,15 @@ fn setup(
                 alpha: 0.0
             }
         }),
+        global_transform: GlobalTransform {
+            translation: Vec3::new(0.0,0.0,0.1),
+            scale: Vec3::new(1.0,1.0,1.0),
+            ..Default::default()
+        },
         ..Default::default()
     });
     commands.spawn_bundle(PerspectiveCameraBundle {
-        transform: Transform::from_xyz(0.0, 10.0, 0.1).looking_at(Vec3::new(0.0, 0.0, 0.0), Vec3::Y),
+        transform: Transform::from_xyz(0.0, 10.0, 1.0).looking_at(Vec3::new(0.0, 0.0, 0.0), Vec3::Y),
         ..Default::default()
     });
 

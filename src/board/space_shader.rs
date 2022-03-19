@@ -79,7 +79,7 @@ impl RenderAsset for CircleMaterial {
         Ok(GpuCircleMaterial {
             buffer,
             bind_group,
-            alpha_mode: AlphaMode::Blend,
+            alpha_mode: AlphaMode::Mask(0.01),
             cull_mode: None
         })
     }
@@ -90,7 +90,22 @@ pub struct StandardMaterialKey {
     cull_mode: Option<Face>,
 }
 
-impl Material for CircleMaterial {
+impl SpecializedMaterial for CircleMaterial {
+    type Key = StandardMaterialKey;
+
+    fn key(material: &<Self as RenderAsset>::PreparedAsset) -> Self::Key {
+        StandardMaterialKey {
+            cull_mode: material.cull_mode
+        }
+    }
+
+    fn specialize(key: Self::Key, descriptor: &mut RenderPipelineDescriptor) {
+        descriptor.primitive.cull_mode = key.cull_mode;
+        if let Some(label) = &mut descriptor.label {
+            *label = format!("circle_{}", *label).into();
+        }
+    }
+
     fn bind_group(material: &<Self as RenderAsset>::PreparedAsset) -> &BindGroup {
         &material.bind_group
     }
